@@ -8,8 +8,7 @@
     "test": "jest"
   },
   "devDependencies": {
-    "jest": "^29.0.0" 
-    // Use the latest version number
+    "jest": "^29.7.0"
   },
   "author": "",
   "license": "ISC"
