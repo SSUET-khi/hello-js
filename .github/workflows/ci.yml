@@ -29,7 +29,7 @@ jobs:
     - name: Run test script
       run: npm test
 
-  # Job 2: Snyk Vulnerability Scan
+  # Job 2: Snyk Vulnerability Scan (Corrected)
   snyk-scan:
     name: Snyk Security Scan
     needs: build # Ensures this runs after the build/test job completes successfully
@@ -42,26 +42,28 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     
-    # You might need to install node dependencies for Snyk to scan your package-lock.json correctly
+    # Install dependencies for Snyk to scan node_modules and package-lock.json
     - name: Install dependencies for scanning
       run: npm ci
 
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        # This secret is needed to authenticate the scan with your Snyk account
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
       with:
-        args: --org='ssuet-khi'
-            sarif-file-output=snyk-results.sarif
+        # Using a multi-line string for 'args'
+        args: >
+          --org='ssuet-khi'
+          --sarif-file-output=snyk-results.sarif
     
     - name: Upload Snyk scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v3
       with:
-        args: --org='ssuet-khi'
-      
-         sarif_file:'snyk-results.sarif'
+        # The upload action needs the path to the SARIF file
+        sarif_file: snyk-results.sarif
         
-  # Job 3: Docker Login (typically preparation for a subsequent "push-to-docker" job)
+  # Job 3: Docker Login
   docker-login:
     name: Docker Hub Login
     needs: [build, snyk-scan] # Ensures this runs after build and scan
@@ -72,3 +74,4 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+        
