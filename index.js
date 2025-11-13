@@ -8,6 +8,7 @@ const server = http.createServer((req, res) => {
 });
 
 // We only listen if this file is executed directly (e.g., via 'npm start')
+server.listen()
 if (require.main === module) {
     server.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`));
 }
