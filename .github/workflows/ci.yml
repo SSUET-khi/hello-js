@@ -56,7 +56,10 @@ jobs:
     - name: Upload Snyk scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: 'snyk-results.sarif'
+       
+        args: --org='ssuet-khi'
+      
+         sarif_file:'snyk-results.sarif'
         
   # Job 3: Docker Login (typically preparation for a subsequent "push-to-docker" job)
   docker-login:
