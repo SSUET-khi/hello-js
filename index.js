@@ -7,8 +7,8 @@ const server = http.createServer((req, res) => {
     res.end('Hello World\n');
 });
 
-// We only listen if this file is executed directly (e.g., via 'npm start')
-server.listen()
+// CRITICAL FIX: The server is only told to listen if this file is the main module, 
+// ensuring tests can manually control startup.
 if (require.main === module) {
     server.listen(PORT, () => console.log(`Server listening on http://localhost:${PORT}`));
 }
