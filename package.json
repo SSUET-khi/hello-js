@@ -4,9 +4,13 @@
   "description": "A simple Node.js project for GitHub Actions",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "start": "node index.js",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0" 
+    // Use the latest version number
   },
   "author": "",
   "license": "ISC"
 }
-
