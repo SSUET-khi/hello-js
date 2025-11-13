@@ -1,24 +1,29 @@
 const request = require('http'); // Use built-in 'http' module for requests
 const server = require('./index'); // Import the raw server instance
-const PORT = process.env.PORT || 3000;
-const URL = `http://localhost:${PORT}`;
+
+// We will use a variable to store the dynamically assigned port
+let testPort;
+let testURL;
 
 // Describe the test suite for the server
 describe('Node.js Hello World Server', () => {
 
-    // 🛠️ FIX: Manually start the server before any tests run, and include error handling
+    // 🛠️ FIX 1: Use port 0 to let the OS assign an available port, then store it.
     beforeAll((done) => {
         
-        // 1. Add error listener for server startup failures (e.g., EADDRINUSE)
+        // Add error listener for startup failures
         server.on('error', (err) => {
-            // If the server throws an error during listen, fail the setup immediately
             console.error('Server failed to start:', err.message);
             done(err);
         });
 
-        // 2. Start the server
-        server.listen(PORT, () => {
-            console.log(`Test server successfully started on port ${PORT}`);
+        // Start the server on port 0
+        server.listen(0, () => {
+            // Get the dynamically assigned port and update the URL
+            testPort = server.address().port;
+            testURL = `http://localhost:${testPort}`;
+            
+            console.log(`Test server successfully started on dynamic port ${testPort}`);
             done(); // Signal Jest that the asynchronous setup is complete
         });
     });
@@ -26,8 +31,8 @@ describe('Node.js Hello World Server', () => {
     // Test case: Check if the server returns "Hello World\n" and status 200
     test('should return "Hello World\\n" and status 200', (done) => {
         
-        // This makes an HTTP request to the running server instance
-        request.get(URL, (res) => {
+        // Use the dynamically assigned URL for the request
+        request.get(testURL, (res) => {
             let data = '';
             
             // Collect the response data chunks
