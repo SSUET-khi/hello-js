@@ -5,7 +5,7 @@ const URL = `http://localhost:${PORT}`;
 
 // Describe the test suite for the server
 describe('Node.js Hello World Server', () => {
-
+    beforeAll
     // Test case: Check if the server returns "Hello World\n" and status 200
     test('should return "Hello World\\n" and status 200', (done) => {
         
