@@ -1,0 +1,12 @@
+{
+  "name": "nodejs-hello-world",
+  "version": "1.0.0",
+  "description": "A simple Node.js project for GitHub Actions",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
